@@ -1,0 +1,46 @@
+.home {
+  display: flex;
+  align-items: flex-start;
+
+  .main {
+    flex: 1;
+    margin-right: 24px;
+  }
+
+  .right {
+    width: 300px;
+  }
+}
+
+.component_copy {
+  display: flex;
+  align-items: center;
+}
+
+.tag-container {
+  display: flex;
+
+  .tag {
+    display: flex;
+    flex-wrap: nowrap;
+
+    &-left {
+      margin-right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &-right {
+      border-left: 0;
+      margin-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
+.tag .ant-tag {
+  padding: 0 4px;
+  line-height: 16px;
+  zoom: 0.75;
+}
