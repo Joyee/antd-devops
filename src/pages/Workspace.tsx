@@ -2,12 +2,12 @@ import { PageContainer, GridContent } from '@ant-design/pro-components';
 import { Button, Card, Dropdown, Space, Table, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './Workspace.less';
-import { Link } from '@umijs/max';
 import { getChanges } from '@/services/workspace';
-import type { ColumnsType } from 'antd/es/table';
-import type { ChangeItem } from '@/services/types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Applications from '@/components/Applications';
+import type { ColumnsType } from 'antd/es/table';
+import type { ChangeItem } from '@/services/types';
 
 dayjs.extend(relativeTime);
 
@@ -143,26 +143,7 @@ const Workspace: React.FC = () => {
             </Card>
           </div>
           <div className={styles.right}>
-            <Card
-              title="我的应用"
-              extra={
-                <>
-                  <Link to="/app/create">
-                    <Button type="link" href="/app/create">
-                      创建应用
-                    </Button>
-                  </Link>
-                  <Link to="/app">
-                    <Button type="link">全部应用</Button>
-                  </Link>
-                </>
-              }
-              style={{ width: 300 }}
-            >
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
-            </Card>
+            <Applications />
           </div>
         </div>
       </GridContent>

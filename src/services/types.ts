@@ -67,3 +67,25 @@ export interface ChangeItem {
   tenantId: string;
   updatedAt: string;
 }
+
+export interface ApplicationItem {
+  appCode: string;
+  changeCount: number;
+  desc: string | null;
+  id: number;
+  name: string;
+  lastDeployedAt: string;
+  template: {
+    id: number;
+    name: string;
+    icon: string;
+  };
+  typeDetail: {
+    id: number;
+    name: string;
+    type: string;
+    parentId: number;
+    icon: string;
+  };
+  typeId: number;
+}
