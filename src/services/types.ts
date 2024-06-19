@@ -89,3 +89,69 @@ export interface ApplicationItem {
   };
   typeId: number;
 }
+
+export interface PiplineQueueItem {
+  key: 'static-build';
+  name: '构建';
+  task: 'air-static-build';
+  state: 'successed';
+  bizCode: 'INTEGRATION_1535_20240617-194833_deploypro-main-static-build';
+  duration: 98000;
+  startTime: '2024-06-17T11:51:13.000Z';
+  taskInstanceId: 789014;
+}
+
+export interface DeployListItem {
+  path: string;
+  isCDN: true;
+  state: string;
+  domain: string;
+}
+export interface EventLogContextItem {
+  env: string;
+  name: string;
+  appId: number;
+  space: string;
+  bizKey: string;
+  webURL: string;
+  appName: string;
+  changes: {
+    id: number;
+    name: string;
+    branch: string;
+    creator: string;
+    commit_id: null;
+  }[];
+  version: string;
+  deployList: DeployListItem[];
+  projectPath: string;
+  masterBranch: string;
+  pipelineQueue: PiplineQueueItem[];
+  integrationName: string;
+  pipelineBizCode: string;
+}
+
+export interface EventLogItem {
+  id: number;
+  appId: number;
+  creator: string;
+  name: string;
+  content: string;
+  context: EventLogContextItem;
+  extra: string;
+  extra1: string;
+  extra2: null;
+  createdAt: string;
+  updatedAt: string;
+  creatorUser: CreatorUser;
+  app: {
+    id: number;
+    name: string;
+    appCode: string;
+    typeDetail: {
+      id: number;
+      name: string;
+      type: string;
+    };
+  };
+}

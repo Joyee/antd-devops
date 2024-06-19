@@ -19,3 +19,7 @@ export async function getApp(scope = 'mine') {
     data: ApplicationItem[];
   }>('/api/apps', { method: 'GET', params: { scope } });
 }
+
+export async function getEventLogs(current = 1, pageSize = 10) {
+  return request('/api/event-logs/related-me', { method: 'GET', params: { current, pageSize } });
+}

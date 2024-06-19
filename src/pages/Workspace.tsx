@@ -8,6 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import Applications from '@/components/Applications';
 import type { ColumnsType } from 'antd/es/table';
 import type { ChangeItem } from '@/services/types';
+import DynamicArea from '@/components/DynamicArea';
 
 dayjs.extend(relativeTime);
 
@@ -137,9 +138,7 @@ const Workspace: React.FC = () => {
               <Table rowKey="id" dataSource={dataSource} columns={columns} />
             </Card>
             <Card title="动态">
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
+              <DynamicArea />
             </Card>
           </div>
           <div className={styles.right}>
