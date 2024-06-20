@@ -1,8 +1,8 @@
-import { getApp } from '@/services/workspace';
 import { Link } from '@umijs/max';
 import { Avatar, Button, Card, List } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.less';
+import { getApps } from '@/services/workspace';
 import type { ApplicationItem } from '@/services/types';
 
 const Applications: React.FC = () => {
@@ -10,9 +10,8 @@ const Applications: React.FC = () => {
 
   const getMyApps = async () => {
     try {
-      const res = await getApp();
-      console.log('我的应用:');
-      console.log(res);
+      const res = await getApps('mine');
+
       setApps(res.data.slice(0, 20));
     } catch (error) {}
   };

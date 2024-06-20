@@ -12,12 +12,12 @@ export async function getChanges() {
   }>('/api/changes', { method: 'GET', params: { isMine: true } });
 }
 
-export async function getApp(scope = 'mine') {
+export async function getApps(scope: string = 'mine', pageSize = 20) {
   return request<{
     actions: { name: string; description: string }[];
     count: number;
     data: ApplicationItem[];
-  }>('/api/apps', { method: 'GET', params: { scope } });
+  }>('/api/apps', { method: 'GET', params: { scope, pageSize } });
 }
 
 export async function getEventLogs(current = 1, pageSize = 10) {
