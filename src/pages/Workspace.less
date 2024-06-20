@@ -23,24 +23,15 @@
   .tag {
     display: flex;
     flex-wrap: nowrap;
+    margin-right: 8px;
 
-    &-left {
+    &-left, &-right {
       margin-right: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
-    }
-
-    &-right {
-      border-left: 0;
-      margin-left: 0;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+      padding: 0 4px;
+      line-height: 16px;
+      zoom: 0.75;
     }
   }
-}
-
-.tag .ant-tag {
-  padding: 0 4px;
-  line-height: 16px;
-  zoom: 0.75;
 }

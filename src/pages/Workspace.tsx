@@ -12,6 +12,13 @@ import DynamicArea from '@/components/DynamicArea';
 
 dayjs.extend(relativeTime);
 
+const envColor: Record<string, string> = {
+  DEV: 'magenta',
+  FAT: 'orange',
+  UAT: 'blue',
+  PRO: 'green',
+};
+
 const columns: ColumnsType<any> = [
   {
     title: '变更名称',
@@ -57,10 +64,7 @@ const columns: ColumnsType<any> = [
         <div className={styles['tag-container']}>
           {record.integrationStates.map((state) => (
             <div key={state.env} className={styles['tag']}>
-              <Tag
-                color={state.env === 'FAT' ? 'orange' : state.env === 'UAT' ? 'blue' : 'green'}
-                className={styles['tag-left']}
-              >
+              <Tag color={envColor[state.env]} className={styles['tag-left']}>
                 {state.env}
               </Tag>
               <Tag className={styles['tag-right']}>{state.version}</Tag>
@@ -110,7 +114,6 @@ const Workspace: React.FC = () => {
 
   useEffect(() => {
     getChanges().then(({ data }) => {
-      console.log(data.data);
       setDataSource(data.data);
     });
   }, []);

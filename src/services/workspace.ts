@@ -1,5 +1,5 @@
 import { request } from '@umijs/max';
-import type { ChangeItem, ApplicationItem } from './types';
+import type { ChangeItem, ApplicationItem, EventLogItem } from './types';
 
 export async function getChanges() {
   return request<{
@@ -21,5 +21,8 @@ export async function getApp(scope = 'mine') {
 }
 
 export async function getEventLogs(current = 1, pageSize = 10) {
-  return request('/api/event-logs/related-me', { method: 'GET', params: { current, pageSize } });
+  return request<{ count: number; rows: EventLogItem[] }>('/api/event-logs/related-me', {
+    method: 'GET',
+    params: { current, pageSize },
+  });
 }
