@@ -9,7 +9,6 @@ const waitTime = (time: number = 100) => {
 };
 
 function getApps(req: Request, res: Response) {
-  console.log('req.params:', req.params);
   const data = {
     actions: [
       {
@@ -598,6 +597,157 @@ function getApps(req: Request, res: Response) {
   res.status(200).send(data);
 }
 
+async function getAppDetail(req: Request, res: Response) {
+  await waitTime();
+  const data = {
+    success: true,
+    code: 200,
+    data: {
+      gitWebURL: 'https://gitlab.enncloud.cn/ennew/lizheng_mg/talents/share-engine-admin',
+      gitHTTPURL: 'https://gitlab.enncloud.cn/ennew/lizheng_mg/talents/share-engine-admin.git',
+      gitSSHURL: 'git@gitlab.enncloud.cn:ennew/lizheng_mg/talents/share-engine-admin.git',
+      devopsCode: 'share-engine-admin',
+      owner: '1353251190985920513',
+      id: 52,
+      creator: '1353251190985920513',
+      appCode: 'share-engine-admin',
+      devopsTeamId: '1384698400564376590',
+      tenantId: '1369923265280311297',
+      name: '分享引擎pc管理系统',
+      typeId: 3,
+      gitRepo: 'git@gitlab.enncloud.cn:ennew/lizheng_mg/talents/share-engine-admin.git',
+      defaultMasterBranch: 'master',
+      productId: null,
+      isMultiVersion: null,
+      isMultiMaster: null,
+      templateId: 3,
+      desc: 'vite+vue3+ts+ency design 分享引擎后台管理系统',
+      deletedAt: null,
+      createdAt: '2022-06-23T04:40:03.000Z',
+      updatedAt: '2023-12-12T10:08:52.000Z',
+      creatorDetail: {
+        id: 28,
+        userId: '1353251190985920513',
+        userName: 'QIUXIAOFENG',
+        nickName: '邱晓峰',
+        mobile: '13520704824',
+        email: 'QIUXIAOFENG@ENN.CN',
+        empNo: '10100975',
+        orgPath: '10000000,10000001,50436871,50428277,50433156',
+        orgNames: '新奥/新奥新智/智能平台运营集群/用户体验技术群/前端组',
+        postCode: '50387925',
+        postName: '信息技术与数字化/软件开发/前端开发/T3',
+        deletedAt: null,
+        createdAt: '2022-06-15T02:20:32.000Z',
+        updatedAt: '2022-12-01T18:12:10.000Z',
+      },
+      ownerDetail: {
+        id: 28,
+        userId: '1353251190985920513',
+        userName: 'QIUXIAOFENG',
+        nickName: '邱晓峰',
+        mobile: '13520704824',
+        email: 'QIUXIAOFENG@ENN.CN',
+        empNo: '10100975',
+        orgPath: '10000000,10000001,50436871,50428277,50433156',
+        orgNames: '新奥/新奥新智/智能平台运营集群/用户体验技术群/前端组',
+        postCode: '50387925',
+        postName: '信息技术与数字化/软件开发/前端开发/T3',
+        deletedAt: null,
+        createdAt: '2022-06-15T02:20:32.000Z',
+        updatedAt: '2022-12-01T18:12:10.000Z',
+      },
+      typeDetail: {
+        id: 3,
+        parentId: 1,
+        tenantId: '1369923265280311297',
+        name: '应用',
+        type: 'app',
+        icon: 'https://res.ennew.com/image/svg%2Bxml/00d2c125191b95fa9c187978c1582b5e.svg',
+        appCreateProcessId: 4,
+        templateIds: [1, 47, 48],
+        integrations: [
+          {
+            name: '发布集成',
+            flowKey: 1,
+            flowName: 'Air应用FAT-UAT-PRO流程',
+            isDefault: true,
+          },
+          {
+            name: '日常集成',
+            flowKey: 2,
+            flowName: 'Air应用DEV部署流程',
+            isDefault: false,
+          },
+        ],
+        description: null,
+        deletedAt: null,
+        createdAt: '2022-06-01T01:37:41.000Z',
+        updatedAt: '2024-04-03T03:11:02.000Z',
+      },
+      typeList: [
+        {
+          id: 1,
+          parentId: null,
+          tenantId: '1369923265280311297',
+          name: 'PC',
+          type: 'pc',
+          icon: 'https://res.ennew.com/image/svg%2Bxml/00d2c125191b95fa9c187978c1582b5e.svg',
+          appCreateProcessId: 4,
+          templateIds: null,
+          integrations: null,
+          description: 'PC场景',
+          deletedAt: null,
+          createdAt: '2022-06-01T01:37:41.000Z',
+          updatedAt: '2023-04-25T20:55:20.000Z',
+        },
+        {
+          id: 3,
+          parentId: 1,
+          tenantId: '1369923265280311297',
+          name: '应用',
+          type: 'app',
+          icon: 'https://res.ennew.com/image/svg%2Bxml/00d2c125191b95fa9c187978c1582b5e.svg',
+          appCreateProcessId: 4,
+          templateIds: [1, 47, 48],
+          integrations: [
+            {
+              name: '发布集成',
+              flowKey: 1,
+              flowName: 'Air应用FAT-UAT-PRO流程',
+              isDefault: true,
+            },
+            {
+              name: '日常集成',
+              flowKey: 2,
+              flowName: 'Air应用DEV部署流程',
+              isDefault: false,
+            },
+          ],
+          description: null,
+          deletedAt: null,
+          createdAt: '2022-06-01T01:37:41.000Z',
+          updatedAt: '2024-04-03T03:11:02.000Z',
+        },
+      ],
+      actions: [
+        {
+          name: 'delete',
+          label: '下线',
+          description: '下线应用',
+        },
+        {
+          name: 'transfer_owner',
+          label: '移交',
+          description: '转让 Owner',
+        },
+      ],
+    },
+  };
+  res.status(200).send(data);
+}
+
 export default {
   'GET /api/apps': getApps,
+  'GET /api/apps/52': getAppDetail,
 };

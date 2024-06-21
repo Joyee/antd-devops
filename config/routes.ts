@@ -36,7 +36,67 @@ export default [
     path: '/app',
     name: '应用',
     icon: 'AppstoreOutlined',
-    component: './App',
+    routes: [
+      {
+        name: '应用',
+        path: '/app',
+        component: './App',
+        // 隐藏子菜单
+        hideInMenu: true,
+        routes: [
+          // {
+          //   index: true,
+          //   name: '我的应用',
+          //   path: '/app',
+          //   component: './App',
+          // },
+          // {
+          //   name: '与我相关',
+          //   path: '/app/all',
+          //   component: './App',
+          // },
+        ],
+      },
+      {
+        name: '应用详情',
+        path: '/app/:id',
+        // 隐藏自己和子菜单
+        hideInMenu: true,
+        routes: [
+          {
+            index: true,
+            name: '基本信息',
+            path: '/app/:id',
+            component: './application/BaseInfo',
+          },
+          {
+            name: '变更列表',
+            path: '/app/:id/changes',
+            component: './application/Changes',
+          },
+          {
+            name: '变更发布',
+            path: '/app/:id/publishing',
+            component: './application/Publishing',
+          },
+          {
+            name: '发布记录',
+            path: '/app/:id/publish-history',
+            component: './application/PublishHistory',
+          },
+          {
+            name: '成员',
+            path: '/app/:id/members',
+            component: './application/Members',
+          },
+          {
+            name: '设置',
+            path: '/app/:id/settings',
+            component: './application/Settings',
+          },
+        ],
+      },
+    ],
   },
   // {
   //   path: '/admin',
@@ -79,13 +139,13 @@ export default [
       {
         path: '/tools/upload',
         name: '图片上传',
-        component: './Tools'
+        component: './Tools',
       },
       {
         path: '/tools/crypto',
         name: '签名加密',
         component: './Crypto',
-      }
+      },
     ],
   },
   {

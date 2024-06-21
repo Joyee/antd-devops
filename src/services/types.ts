@@ -1,3 +1,9 @@
+export interface CommonResponse<T> {
+  code: number;
+  success: boolean;
+  data: T;
+}
+
 export interface ChangeActionItem {
   name: string;
   label: string;
@@ -68,6 +74,13 @@ export interface ChangeItem {
   updatedAt: string;
 }
 
+export interface TypeDetail {
+  id: number;
+  name: string;
+  type: string;
+  parentId: number;
+  icon: string;
+}
 export interface ApplicationItem {
   appCode: string;
   changeCount: number;
@@ -80,25 +93,19 @@ export interface ApplicationItem {
     name: string;
     icon: string;
   };
-  typeDetail: {
-    id: number;
-    name: string;
-    type: string;
-    parentId: number;
-    icon: string;
-  };
+  typeDetail: TypeDetail;
   typeId: number;
 }
 
 export interface PiplineQueueItem {
-  key: 'static-build';
-  name: '构建';
-  task: 'air-static-build';
-  state: 'successed';
-  bizCode: 'INTEGRATION_1535_20240617-194833_deploypro-main-static-build';
-  duration: 98000;
-  startTime: '2024-06-17T11:51:13.000Z';
-  taskInstanceId: 789014;
+  key: string;
+  name: string;
+  task: string;
+  state: string;
+  bizCode: string;
+  duration: number;
+  startTime: string;
+  taskInstanceId: number;
 }
 
 export interface DeployListItem {
@@ -154,4 +161,53 @@ export interface EventLogItem {
       type: string;
     };
   };
+}
+
+// application
+export interface Application {
+  actions: {
+    description: string;
+    label: string;
+    name: string;
+  }[];
+  appCode: string;
+  createdAt: string;
+  creator: string;
+  creatorDetail: CreatorUser;
+  defaultMasterBranch: string;
+  deletedAt: string;
+  desc: string;
+  devopsCode: string;
+  devopsTeamId: string;
+  gitHTTPURL: string;
+  gitRepo: string;
+  gitSSHURL: string;
+  gitWebURL: string;
+  id: number;
+  isMultiMaster: null;
+  isMultiVersion: null;
+  name: string;
+  owner: string;
+  ownerDetail: CreatorUser;
+  productId: null;
+  templateId: number;
+  tenantId: string;
+  typeDetail: TypeDetail;
+  typeId: number;
+  typeList: {
+    appCreateProcessId: number;
+    createdAt: string;
+    deletedAt: null;
+    description: string;
+    icon: string;
+    id: number;
+    integrations: null;
+    name: string;
+    parentId: null | number[];
+    templateIds: null | number[];
+    tenantId: string;
+    type: string;
+    updatedAt: string;
+  }[];
+  updatedAt: string;
 }

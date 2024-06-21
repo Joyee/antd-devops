@@ -1,5 +1,3 @@
-import { Request, Response } from 'express';
-
 module.exports = {
   'GET /api/currentUser': {
     data: {
@@ -781,7 +779,7 @@ module.exports = {
       count: 5,
     },
   },
-  
+
   'GET /api/event-logs/related-me': {
     count: 12534,
     rows: [
