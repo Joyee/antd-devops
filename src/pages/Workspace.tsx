@@ -9,15 +9,9 @@ import Applications from '@/components/Applications';
 import type { ColumnsType } from 'antd/es/table';
 import type { ChangeItem } from '@/services/types';
 import DynamicArea from '@/components/DynamicArea';
+import { envColor } from '@/utils/common';
 
 dayjs.extend(relativeTime);
-
-const envColor: Record<string, string> = {
-  DEV: 'magenta',
-  FAT: 'orange',
-  UAT: 'blue',
-  PRO: 'green',
-};
 
 const columns: ColumnsType<any> = [
   {
@@ -113,7 +107,7 @@ const Workspace: React.FC = () => {
   const [dataSource, setDataSource] = useState<ChangeItem[]>([]);
 
   useEffect(() => {
-    getChanges().then(({ data }) => {
+    getChanges(true).then(({ data }) => {
       setDataSource(data.data);
     });
   }, []);

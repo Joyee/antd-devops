@@ -1,8 +1,10 @@
 import React from 'react';
-import Layout from './Layout';
+import { useOutletContext } from '@umijs/max';
 
-const Changes: React.FC = () => {
-  return <Layout>变更列表</Layout>;
+const Changes = () => {
+  const props = useOutletContext();
+
+  return <div>变更列表</div>;
 };
 
 export default Changes;

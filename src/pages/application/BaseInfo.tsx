@@ -1,12 +1,24 @@
-import React from 'react';
-import Layout from './Layout';
+import React, { useEffect, useState } from 'react';
 import './styles.less';
-import { Card } from 'antd';
-import { Application } from '@/services/types';
-import { Link } from '@umijs/max';
+import { Card, Space, Table, TablePaginationConfig } from 'antd';
+import { Link, useOutletContext } from '@umijs/max';
 import { formatTimeToRelativeTime } from '@/utils';
+import type { Application, EventLogItem } from '@/services/types';
+import dayjs from 'dayjs';
+import { getEventLogs, getTemplatesById } from '@/services/workspace';
+import DynamicLog from '@/components/DynamicLog';
 
-const BaseInfo = (props: Application) => {
+const MAX_PAGE_SIZE = 5;
+
+const BaseInfo = () => {
+  const props = useOutletContext() as Application;
+
+  const [templateName, setTemplateName] = useState('');
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(MAX_PAGE_SIZE);
+  const [logs, setLogs] = useState<EventLogItem[]>([]);
+  const [total, setTotal] = useState(0);
+
   const items = [
     {
       label: '应用描述',
@@ -18,7 +30,7 @@ const BaseInfo = (props: Application) => {
     },
     {
       label: '仓库地址',
-      value: () => (
+      value: (
         <div className="component-gitlab-address-root">
           <Link to={props.gitHTTPURL} target="_blank">
             <span>{props.gitHTTPURL}</span>
@@ -32,7 +44,9 @@ const BaseInfo = (props: Application) => {
     },
     {
       label: '创建时间',
-      value: `${formatTimeToRelativeTime}(${props.createdAt})`,
+      value: `${formatTimeToRelativeTime(props.createdAt)}(${dayjs(
+        new Date(props.createdAt),
+      ).format('YYYY-MM-DD HH:mm:ss')})`,
     },
     {
       label: '发布类型',
@@ -48,19 +62,81 @@ const BaseInfo = (props: Application) => {
     },
     {
       label: '模板信息',
+      value: templateName || '',
     },
   ];
 
-  const CardItem = (item) => {
-    return <div className="card-item"></div>;
+  const CardItem = ({ label, value }: { label: string; value?: any }) => {
+    return (
+      <div className="card-item">
+        <div className="card-item-label">{label}</div>
+        <div className="card-item-value">{value}</div>
+      </div>
+    );
   };
 
+  async function loadEventLogs() {
+    try {
+      const logs = await getEventLogs(current, pageSize, props.id, false);
+      setLogs(logs.rows || []);
+      setTotal(logs.count);
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    if (!props.templateId) return;
+    getTemplatesById(props.templateId).then((res) => {
+      setTemplateName(res.name);
+    });
+  }, [props?.templateId]);
+
+  const onChange = (pagination: TablePaginationConfig) => {
+    setCurrent(pagination?.current || 1);
+    setPageSize(pagination?.pageSize || MAX_PAGE_SIZE);
+  };
+
+  useEffect(() => {
+    loadEventLogs();
+  }, [current, pageSize]);
+
   return (
-    <Layout>
-      <div className="card-content">
-        <Card><CardItem /></Card>
+    <div className="app-detail-baseinfo-container">
+      <Card className="card-wrap" title={props.name}>
+        <div className="card-content">
+          {items.map((item) => (
+            <CardItem key={item.label} {...item} />
+          ))}
+        </div>
+      </Card>
+      <div style={{ width: '25vw' }}>
+        <Card title="动态">
+          <Table
+            columns={[
+              {
+                dataIndex: ['content'],
+                render: (text, record: EventLogItem) => {
+                  return (
+                    <>
+                      <span>{formatTimeToRelativeTime(record.createdAt)}</span>&nbsp;
+                      <Space size={8}>
+                        <Link to={'#'}>{record.creatorUser.nickName}</Link>
+                      </Space>
+                      <br />
+                      {record.context ? <DynamicLog {...record} /> : <span>{record.content}</span>}
+                    </>
+                  );
+                },
+              },
+            ]}
+            rowKey="id"
+            pagination={{ total, showSizeChanger: false, pageSize, position: ['bottomCenter'] }}
+            showHeader={false}
+            onChange={onChange}
+            dataSource={logs}
+          />
+        </Card>
       </div>
-    </Layout>
+    </div>
   );
 };
 

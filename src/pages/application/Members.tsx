@@ -1,8 +1,8 @@
 import React from 'react';
-import { PageContainer } from '@ant-design/pro-components';
+import type { Application } from '@/services/types';
 
-const Members: React.FC = () => {
-  return <PageContainer>成员</PageContainer>;
+const Members = (props?: Application) => {
+  return <div>成员</div>;
 };
 
 export default Members;

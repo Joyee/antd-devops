@@ -1,8 +1,8 @@
 import React from 'react';
-import { PageContainer } from '@ant-design/pro-components';
+import type { Application } from '@/services/types';
 
-const Settings: React.FC = () => {
-  return <PageContainer>设置</PageContainer>;
+const Settings = (props?: Application) => {
+  return <div>设置</div>;
 };
 
 export default Settings;

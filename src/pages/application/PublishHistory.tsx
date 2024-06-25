@@ -1,8 +1,8 @@
 import React from 'react';
-import { PageContainer } from '@ant-design/pro-components';
+import type { Application } from '@/services/types';
 
-const PublishingHistory: React.FC = () => {
-  return <PageContainer>发布记录</PageContainer>;
+const PublishingHistory = (props?: Application) => {
+  return <div>发布记录</div>;
 };
 
 export default PublishingHistory;

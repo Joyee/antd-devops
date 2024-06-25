@@ -1,8 +1,8 @@
 import React from 'react';
-import { PageContainer } from '@ant-design/pro-components';
+import type { Application } from '@/services/types';
 
-const Publishing: React.FC = () => {
-  return <PageContainer>变更发布</PageContainer>;
+const Publishing = (props?: Application) => {
+  return <div>变更发布</div>;
 };
 
 export default Publishing;

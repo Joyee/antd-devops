@@ -62,6 +62,7 @@ export default [
         path: '/app/:id',
         // 隐藏自己和子菜单
         hideInMenu: true,
+        component: './application/Layout',
         routes: [
           {
             index: true,

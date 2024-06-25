@@ -1,20 +1,13 @@
 import { getEventLogs } from '@/services/workspace';
-import { Table, Tag } from 'antd';
+import { Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Link } from '@umijs/max';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { EventLogItem } from '@/services/types';
+import DynamicLog from './DynamicLog';
 
 dayjs.extend(relativeTime);
-
-const envColor: Record<string, string> = {
-  DEV: 'magenta',
-  FAT: 'orange',
-  UAT: 'blue',
-  PRO: 'green',
-};
 
 const DynamicArea: React.FC = () => {
   const [dataSource, setDataSource] = useState<EventLogItem[]>([]);
@@ -34,22 +27,7 @@ const DynamicArea: React.FC = () => {
       title: '内容',
       dataIndex: ['content'],
       render: (text, record: EventLogItem) => {
-        return record.context ? (
-          <>
-            <span>在应用&nbsp;</span>
-            <Link to={`/app/${record.appId}`}>
-              {record.app.name}({record.app?.appCode})
-            </Link>
-            &nbsp;部署完成，
-            <span>
-              环境：<Tag color={envColor[record.context?.env]}>{record.context?.env}</Tag>
-              版本：<Tag>{record.context?.version}</Tag>
-            </span>
-            <Link to={record.context?.webURL}>应用预览</Link>
-          </>
-        ) : (
-          <span>{record.content}</span>
-        );
+        return record.context ? <DynamicLog {...record} /> : <span>{record.content}</span>;
       },
     },
   ];
