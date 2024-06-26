@@ -163,19 +163,18 @@ export interface EventLogItem {
   };
 }
 
-// application
-export interface Application {
-  actions: {
-    description: string;
-    label: string;
-    name: string;
-  }[];
+export type ApplicationAction = {
+  description: string;
+  label: string;
+  name: string;
+};
+
+export interface ApplicationProp {
   appCode: string;
   createdAt: string;
   creator: string;
-  creatorDetail: CreatorUser;
   defaultMasterBranch: string;
-  deletedAt: string;
+  deletedAt: string | null;
   desc: string;
   devopsCode: string;
   devopsTeamId: string;
@@ -184,14 +183,20 @@ export interface Application {
   gitSSHURL: string;
   gitWebURL: string;
   id: number;
-  isMultiMaster: null;
-  isMultiVersion: null;
+  isMultiMaster: boolean | null;
+  isMultiVersion: boolean | null;
   name: string;
   owner: string;
-  ownerDetail: CreatorUser;
-  productId: null;
+  productId: number | null;
   templateId: number;
   tenantId: string;
+  typeId: number;
+  updatedAt: string;
+}
+// application
+export interface Application extends ApplicationProp {
+  actions: ApplicationAction[];
+  ownerDetail: CreatorUser;
   typeDetail: TypeDetail;
   typeId: number;
   typeList: {
@@ -209,5 +214,61 @@ export interface Application {
     type: string;
     updatedAt: string;
   }[];
+}
+
+interface BranchIntegrationItem {
+  appId: number;
+  name: string;
+  createdAt: string;
   updatedAt: string;
+  creator: string;
+  deployBranch: string;
+  flowInstanceId: string;
+  flowKey: string;
+  flowName: string;
+  id: number;
+  isDefault: number;
+  masterBranchId: number;
+  tenantId: string;
+  context: {
+    targetInfo: Record<
+      'FAT' | 'UAT' | 'PRO',
+      {
+        commitId: string;
+        url: string;
+        version: string;
+      }
+    >;
+    deployCommitId: string;
+    deployVersions: Record<
+      'FAT' | 'UAT' | 'PRO',
+      {
+        deployAt: 1714295165252;
+        grayscale: 1;
+        isDeploy: true;
+        version: '0.0.186';
+      }
+    >;
+  };
+}
+
+// branch
+export interface MasterBranchItem {
+  action: ApplicationAction[];
+  app: ApplicationProp;
+  appId: number;
+  createdAt: string;
+  updatedAt: string;
+  deletable: boolean;
+  defaultIntegration: BranchIntegrationItem;
+  deployTarget: string;
+  desc: string | null;
+  domain: string;
+  domainType: string;
+  gitWebURL: string;
+  id: number;
+  name: string;
+  isMultiVersion: boolean;
+  webPath: string;
+  integration: BranchIntegrationItem[];
 }

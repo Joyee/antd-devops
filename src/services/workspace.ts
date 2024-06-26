@@ -12,12 +12,30 @@ export async function getChanges(isMine?: boolean) {
   }>('/api/changes', { method: 'GET', params: isMine ? { isMine: true } : {} });
 }
 
-export async function getApps(scope: string = 'mine', pageSize = 20) {
+export async function getApps({
+  scope,
+  pageSize = 20,
+  current = 1,
+  appTypeCode = '',
+}: {
+  scope?: string;
+  pageSize?: number;
+  current?: number;
+  appTypeCode?: string;
+}) {
   return request<{
     actions: { name: string; description: string }[];
     count: number;
     data: ApplicationItem[];
-  }>('/api/apps', { method: 'GET', params: { scope, pageSize } });
+  }>('/api/apps', {
+    method: 'GET',
+    params: {
+      scope: scope || undefined,
+      pageSize,
+      currenPage: current || undefined,
+      appTypeCode: appTypeCode || undefined,
+    },
+  });
 }
 
 export async function getEventLogs(current = 1, pageSize: number, appId?: number, isMe = true) {

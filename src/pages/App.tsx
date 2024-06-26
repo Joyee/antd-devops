@@ -28,7 +28,7 @@ const Application: React.FC = () => {
       return;
     }
     try {
-      const { data, count } = await getApps(activeKey, 100);
+      const { data, count } = await getApps({ scope: activeKey, pageSize: 100 });
       setAllApps(data);
       const result = data.slice(0, pageSize);
       setApps(result);

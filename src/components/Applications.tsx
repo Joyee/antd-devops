@@ -10,7 +10,7 @@ const Applications: React.FC = () => {
 
   const getMyApps = async () => {
     try {
-      const res = await getApps('mine');
+      const res = await getApps({ scope: 'mine' });
 
       setApps(res.data.slice(0, 20));
     } catch (error) {}
