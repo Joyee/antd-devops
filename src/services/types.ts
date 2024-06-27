@@ -7,6 +7,7 @@ export interface CommonResponse<T> {
 export interface ChangeActionItem {
   name: string;
   label: string;
+  description?: string;
 }
 
 export interface CreatorUser {
@@ -216,7 +217,42 @@ export interface Application extends ApplicationProp {
   }[];
 }
 
-interface BranchIntegrationItem {
+export interface IntegrationChangeItem {
+  app: {
+    gitRepo: string;
+    gitWebURL: string;
+    id: number;
+  };
+  appId: number;
+  branch: string;
+  createdAt: string;
+  creator: string;
+  creatorUser: CreatorUser;
+  endCommitId: null | string;
+  gitWebURL: string;
+  id: number;
+  masterBranchId: number;
+  name: string;
+  projectId: null | string;
+  startCommitId: string;
+  status: string;
+  statusText: string;
+  tenantId: string;
+  updatedAt: string;
+}
+
+export interface BranchIntegrationChangeItem {
+  change: IntegrationChangeItem;
+  actions: ChangeActionItem[];
+  changeId: number;
+  commitId: string;
+  createdAt: string;
+  id: number;
+  integrationId: number;
+  updatedAt: string;
+}
+
+export interface BranchIntegrationItem {
   appId: number;
   name: string;
   createdAt: string;
@@ -250,6 +286,7 @@ interface BranchIntegrationItem {
       }
     >;
   };
+  changes: BranchIntegrationChangeItem[];
 }
 
 // branch
@@ -270,5 +307,24 @@ export interface MasterBranchItem {
   name: string;
   isMultiVersion: boolean;
   webPath: string;
-  integration: BranchIntegrationItem[];
+  integrations: BranchIntegrationItem[];
+}
+
+export interface CommitMapItem {
+  author_email: string;
+  author_name: string;
+  authored_date: string;
+  branchType: string;
+  committed_date: string;
+  committer_email: string;
+  committer_name: string;
+  created_at: string;
+  id: string;
+  isNewCommit: boolean;
+  message: string;
+  parent_ids: string[];
+  short_id: string;
+  title: string;
+  trailers: object;
+  web_url: string;
 }

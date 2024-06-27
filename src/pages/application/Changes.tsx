@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useOutletContext } from '@umijs/max';
+import { useParams, useOutletContext } from '@umijs/max';
 import { Button, Dropdown, Space, Table, TableColumnType } from 'antd';
 import { getAppChangesById } from '@/services/application';
 import './styles.less';
