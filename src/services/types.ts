@@ -328,3 +328,38 @@ export interface CommitMapItem {
   trailers: object;
   web_url: string;
 }
+
+export interface ProcessInstanceNodeItem {
+  approvers: any[];
+  bizCode: string;
+  code: string;
+  eniginInstId: string;
+  id: number;
+  label: string;
+  passBtnShow: boolean;
+  retryBtnShow: boolean;
+  startBtnShow: boolean;
+  state: string;
+  type: string;
+}
+
+export interface QueueItem {
+  bizCode: string;
+  duration: number;
+  key: string;
+  name: string;
+  startTime: string;
+  state: string;
+  task: string;
+  taskInstanceId: number;
+  isAsync?: boolean;
+}
+
+export interface SummaryItem {
+  type: string;
+  key?: string;
+  value: {
+    label: string;
+    value: string;
+  }[];
+}
