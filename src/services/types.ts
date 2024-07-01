@@ -115,6 +115,14 @@ export interface DeployListItem {
   state: string;
   domain: string;
 }
+export interface ContextChangeItem {
+  id: number;
+  name: string;
+  branch: string;
+  creator: string;
+  commit_id: null;
+}
+
 export interface EventLogContextItem {
   env: string;
   name: string;
@@ -123,18 +131,12 @@ export interface EventLogContextItem {
   bizKey: string;
   webURL: string;
   appName: string;
-  changes: {
-    id: number;
-    name: string;
-    branch: string;
-    creator: string;
-    commit_id: null;
-  }[];
+  changes: ContextChangeItem[];
   version: string;
   deployList: DeployListItem[];
   projectPath: string;
   masterBranch: string;
-  pipelineQueue: PiplineQueueItem[];
+  pipelineQueue: PiplineQueueItem[] | PiplineQueueItem[];
   integrationName: string;
   pipelineBizCode: string;
 }
@@ -263,7 +265,7 @@ export interface BranchIntegrationItem {
   flowKey: string;
   flowName: string;
   id: number;
-  isDefault: number;
+  isDefault: boolean;
   masterBranchId: number;
   tenantId: string;
   context: {

@@ -6,6 +6,7 @@ import {
   getMasterBranchesIntegrations,
   getPipelineInstanceIntegration,
   getPipelineInstanceSummary,
+  getProcessDefinitionBuildNodes,
   getProcessInstanceNodes,
   getProcessInstanceNodesByNodeId,
 } from '@/services/application';
@@ -23,7 +24,7 @@ import {
   SyncOutlined,
   UnlockOutlined,
 } from '@ant-design/icons';
-import type { CommitMapItem, BranchIntegrationChangeItem, SummaryItem } from '@/services/types';
+import type { CommitMapItem, BranchIntegrationChangeItem } from '@/services/types';
 import type { TabsProps, DescriptionsProps, TableColumnsType, StepsProps } from 'antd';
 
 const statusMap: Record<
@@ -60,6 +61,7 @@ const Publishing = () => {
   const [tabs, setTabs] = useState<TabsProps['items']>([]);
   const [descriptions, setDescriptions] = useState<DescriptionsProps['items']>([]);
   const [currentTab, setCurrentTab] = useState('');
+  const [defaultIntegrationId, setDefaultIntegrationId] = useState<number | undefined>();
   const [changes, setChanges] = useState<ChangeItemProp[]>([]);
   const [loading, setLoading] = useState(true);
   const [flowInstanceId, setFlowInstanceId] = useState('');
@@ -67,6 +69,7 @@ const Publishing = () => {
   const [deployCurrent, setDeployCurrent] = useState(0);
   const [subFlowActive, setSubFlowActive] = useState(0);
   const [subFlowSteps, setSubFlowSteps] = useState<StepsProps['items']>([]);
+  const [flowKey, setFlowKey] = useState('');
 
   const ChangeTable = () => {
     const [isCopyed, setIsCopyed] = useState(false);
@@ -185,7 +188,23 @@ const Publishing = () => {
   };
 
   const fetchProcessFlowInstanceNodes = async () => {
-    if (!flowInstanceId) return;
+    if (!flowInstanceId) {
+      if (flowKey) {
+        // flowKey
+        const buildNodes = await getProcessDefinitionBuildNodes(flowKey);
+        console.log(buildNodes);
+        const steps = buildNodes.map((node) => ({
+          title: node.label,
+          status: 'wait' as 'process' | 'wait' | 'finish' | 'error',
+          icon: null,
+        }));
+        setDeployCurrent(-1);
+        setDeploySteps(steps);
+        setSubFlowSteps([]);
+        setDescriptions([]);
+      }
+      return;
+    }
     try {
       // TODO 定时查询
       const res = await getProcessInstanceNodes(flowInstanceId);
@@ -279,13 +298,13 @@ const Publishing = () => {
   };
 
   async function fetchMasterBranchesIntegrations() {
-    if (!currentTab) {
+    if (!defaultIntegrationId) {
       setLoading(false);
       return;
     }
     setLoading(true);
     try {
-      const response = await getMasterBranchesIntegrations(currentTab);
+      const response = await getMasterBranchesIntegrations(defaultIntegrationId);
       const found = response.data.find((item) => item.id + '' === currentTab);
       const commitRes = await getIntegrationCommit(currentTab);
 
@@ -295,6 +314,11 @@ const Publishing = () => {
         });
         setChanges(data);
         setFlowInstanceId(found.flowInstanceId);
+        setFlowKey(found.flowKey);
+      } else {
+        setChanges([]);
+        setFlowInstanceId('');
+        setFlowKey('');
       }
       setLoading(false);
     } catch (error) {
@@ -318,9 +342,14 @@ const Publishing = () => {
           label: item.name,
         }));
 
-        const integrationId = integrations[0].id + '';
+        const defaultTab = integrations.find((integration) => integration.isDefault === true);
+        let integrationId = integrations[0].id;
+        if (defaultTab) {
+          integrationId = defaultTab.id;
+        }
         setTabs(tabs);
-        setCurrentTab(integrationId);
+        setCurrentTab(integrationId + '');
+        setDefaultIntegrationId(integrationId);
       } else {
         setLoading(false);
       }
@@ -333,7 +362,7 @@ const Publishing = () => {
 
   useEffect(() => {
     fetchMasterBranchesIntegrations();
-  }, [currentTab]);
+  }, [defaultIntegrationId, currentTab]);
 
   useEffect(() => {
     fetchProcessFlowInstanceNodes();
@@ -361,23 +390,33 @@ const Publishing = () => {
                       style={{ marginTop: 24 }}
                     />
                   </div>
-                  <Space size={8} style={{ margin: '24px 0' }}>
-                    <Button>重新发布</Button>
-                    <Button type="primary" ghost icon={<UnlockOutlined />}></Button>
-                    <Divider type="vertical" />
-                    <Button type="link" size="small" icon={<FileSearchOutlined />}>
-                      部署详情
-                    </Button>
-                  </Space>
-                  <div className="sub-flow">
-                    <Steps progressDot current={subFlowActive} items={subFlowSteps} />
-                  </div>
-                  <Descriptions
-                    className="node-summary-container"
-                    title="摘要信息"
-                    items={descriptions}
-                    column={2}
-                  />
+                  {changes.length > 0 ? (
+                    <Space size={8} style={{ margin: '24px 0' }}>
+                      <Button>重新发布</Button>
+                      <Button type="primary" ghost icon={<UnlockOutlined />}></Button>
+                      <Divider type="vertical" />
+                      <Button type="link" size="small" icon={<FileSearchOutlined />}>
+                        部署详情
+                      </Button>
+                    </Space>
+                  ) : (
+                    <div style={{ marginTop: '16px' }}>
+                      <Button type="primary">立即发布</Button>
+                    </div>
+                  )}
+                  {subFlowSteps && subFlowSteps?.length > 0 ? (
+                    <div className="sub-flow">
+                      <Steps progressDot current={subFlowActive} items={subFlowSteps} />
+                    </div>
+                  ) : null}
+                  {descriptions && descriptions?.length > 0 ? (
+                    <Descriptions
+                      className="node-summary-container"
+                      title="摘要信息"
+                      items={descriptions}
+                      column={2}
+                    />
+                  ) : null}
                 </div>
               </>
             ),

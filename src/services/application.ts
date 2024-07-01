@@ -116,3 +116,9 @@ export const getProcessInstanceNodesByNodeId = (processNodeId: number) =>
 
 export const getPipelineInstanceSummary = (id: number) =>
   request<SummaryItem[]>(`/api/pipeline/instance/${id}/summary`);
+
+export const getProcessDefinitionBuildNodes = (flowKey: string) => request<{
+  code: string;
+  label: string;
+  type: string;
+}[]>(`/api/process/definition/${flowKey}/build-nodes`);

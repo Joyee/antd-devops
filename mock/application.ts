@@ -1062,4 +1062,53 @@ export default {
       ],
     },
   ],
+  'GET /api/process/definition/2/build-nodes': [
+    {
+      code: 'start',
+      label: '开始',
+      type: 'startEvent',
+    },
+    {
+      code: 'deploydev',
+      label: '部署',
+      type: 'serviceTask',
+    },
+    {
+      code: 'endNode',
+      label: '结束',
+      type: 'endEvent',
+    },
+  ],
+  'GET /api/process/definition/3/build-nodes': [
+    {
+      code: 'start',
+      label: '开始',
+      type: 'startEvent',
+    },
+    {
+      code: 'deployfat',
+      label: 'FAT部署',
+      type: 'serviceTask',
+    },
+    {
+      code: 'proapprove',
+      label: '上线审批',
+      type: 'userTask',
+    },
+    {
+      code: 'deploypro',
+      label: '线上部署',
+      type: 'serviceTask',
+    },
+    {
+      code: 'close',
+      label: '关闭变更',
+      type: 'serviceTask',
+    },
+    {
+      code: 'endNode',
+      label: '结束',
+      type: 'endEvent',
+    },
+  ],
 };
