@@ -3799,7 +3799,20 @@ export default {
     initialValues: {
       'air-static-build__isMultiVersion': false,
       'air-static-build__isBuildOnceDeployAnywhere': false,
-      'air-static-deploy__deployList': [],
+      'air-static-deploy__deployList': [
+        {
+          id: 1,
+          domain: 'air.fat.ennew.com',
+          state: 'online',
+          isCDN: false,
+          isDefault: true,
+          env: 'fat',
+          type: 'common',
+          editable: false,
+          webPath: 'share-engine-admin',
+          deleteAble: false,
+        },
+      ],
       'gold-keeper-runtime-check__envs': {
         USER_PWD: '1a@12345',
         USER_NAME: 't-liudanq',
